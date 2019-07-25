@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     Rigidbody2D _rigid;
+    Vector3 Movement;
 
     // Player Speed
     public int _speed;
+    public int _savespeed;
 
     // Horizontal , Vertical
     float h;
@@ -20,16 +22,22 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        PlayerMove();
         PlayerRun();
+    }
+
+    private void FixedUpdate()
+    {
+        PlayerMove();
     }
 
     private void PlayerMove()
     {
-        h = Input.GetAxisRaw("Horizontal") * _speed * Time.deltaTime;
-        v = Input.GetAxisRaw("Vertical") * _speed * Time.deltaTime;
-        _rigid.velocity = Vector2.zero;
-        _rigid.AddForce(Vector3.zero * h * _speed * Time.deltaTime);
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+
+        Movement.Set(h, v, 0);
+        Movement = Movement.normalized * _speed * Time.deltaTime;
+        _rigid.MovePosition(_rigid.transform.position + Movement);
     }
 
     private void PlayerRun()
@@ -40,9 +48,8 @@ public class PlayerManager : MonoBehaviour
         }
         else if(Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _speed = 3;
-        }
-        
+            _speed = _savespeed;
+        }        
     }
 
 }
