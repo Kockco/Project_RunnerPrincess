@@ -28,18 +28,19 @@ public class PlayerManager : MonoBehaviour
     {
         h = Input.GetAxisRaw("Horizontal") * _speed * Time.deltaTime;
         v = Input.GetAxisRaw("Vertical") * _speed * Time.deltaTime;
-        transform.Translate(new Vector3(h, v, 0));
+        _rigid.velocity = Vector2.zero;
+        _rigid.AddForce(Vector3.zero * h * _speed * Time.deltaTime);
     }
 
     private void PlayerRun()
     {
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _speed *= 2;
-            if(Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                _speed = 3;
-            }
+            _speed *= 2;            
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _speed = 3;
         }
         
     }
