@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform _Player;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (_Player.position.x <= -3)
+        {
+            transform.position = new Vector3(-3, 0, transform.position.z);
+        }
+        else if (_Player.position.x >= 68.1f)
+        {
+            transform.position = new Vector3(68.1f, 0, transform.position.z);
+        }
+        else
+        {
+            transform.position = new Vector3(_Player.position.x, 0, transform.position.z);
+        }
     }
 }

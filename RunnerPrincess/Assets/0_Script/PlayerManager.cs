@@ -11,6 +11,9 @@ public class PlayerManager : MonoBehaviour
     public float _speed;
     public float _savespeed;
 
+    // Save
+    private float _savepoint = 0;
+
     // Horizontal , Vertical
     float h;
     float v;
@@ -65,6 +68,21 @@ public class PlayerManager : MonoBehaviour
         {
             _speed = _savespeed;
         }        
+    }
+
+    private void PlayerDead()
+    {
+
+    }
+
+    private void OnTriggerEnter(Collider col)
+    {
+        switch (col.tag)
+        {
+            case "Save":
+                _savepoint++;
+                break;
+        }
     }
 
 }
