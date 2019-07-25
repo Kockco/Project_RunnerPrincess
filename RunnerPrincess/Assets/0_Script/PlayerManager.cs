@@ -8,8 +8,8 @@ public class PlayerManager : MonoBehaviour
     Vector3 Movement;
 
     // Player Speed
-    public int _speed;
-    public int _savespeed;
+    public float _speed;
+    public float _savespeed;
 
     // Horizontal , Vertical
     float h;
@@ -23,11 +23,17 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         PlayerRun();
+        PlayerRotation();
     }
 
     private void FixedUpdate()
     {
         PlayerMove();
+    }
+
+    private void PlayerRotation()
+    {
+        transform.eulerAngles = new Vector3(0, transform.rotation.y, 0);
     }
 
     private void PlayerMove()
@@ -38,13 +44,22 @@ public class PlayerManager : MonoBehaviour
         Movement.Set(h, v, 0);
         Movement = Movement.normalized * _speed * Time.deltaTime;
         _rigid.MovePosition(_rigid.transform.position + Movement);
+
+        if(h == 1)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if(h == -1)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;                
+        }
     }
 
     private void PlayerRun()
     {
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _speed *= 2;            
+            _speed *= 1.5f;            
         }
         else if(Input.GetKeyUp(KeyCode.LeftShift))
         {
